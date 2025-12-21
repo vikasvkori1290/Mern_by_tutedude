@@ -1,0 +1,27 @@
+.row {
+    max-width: 1140px;
+    margin: 0 auto;
+}
+
+/* Clearfix: Keeps the row from collapsing because of floated children */
+.row::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.col {
+    display: block;
+    float: left;
+    margin-left: 1%; /* Space between columns */
+}
+
+.col:first-child { 
+    margin-left: 0; 
+}
+
+/* The math: (100% - 3% margins) / 4 columns = 24.25% */
+.span-1-of-4 {
+    width: 24.25%;
+}
+
