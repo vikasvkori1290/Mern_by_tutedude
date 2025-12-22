@@ -1,10 +1,624 @@
-/* Initial CSS */
+/* Global Styles */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary-color: #4da3ff;
+    --secondary-color: #fcebeb;
+    --text-dark: #333333;
+    --text-light: #666666;
+    --white: #ffffff;
+    --bg-light: #f9f9f9;
+    --border-color: #e0e0e0;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
 body {
-    font-family: Arial, sans-serif;
+    background-color: var(--white);
+    color: var(--text-dark);
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5%;
+    background: var(--white);
+    /* box-shadow: 0 2px 5px rgba(0,0,0,0.05); */
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: #455a64;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+.nav-links li a.active,
+.nav-links li a:hover {
+    color: var(--text-dark);
+}
+
+.username-btn {
+    padding: 10px 20px;
+    background-color: #e1f5fe;
+    color: var(--primary-color);
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Hero Section */
+.hero-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px 5%;
+    margin-bottom: 50px;
+}
+
+.hero-content {
+    flex: 1;
+    padding-right: 50px;
+}
+
+.hero-content h1 {
+    font-size: 48px;
+    line-height: 1.2;
+    color: #455a64;
+    margin-bottom: 20px;
+}
+
+.hero-content h1 .highlight {
+    color: var(--primary-color);
+    display: block;
+}
+
+.hero-content p {
+    color: var(--text-light);
+    margin-bottom: 30px;
+    font-size: 16px;
+    line-height: 1.6;
+    max-width: 500px;
+}
+
+.hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.cta-btn {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 10px rgba(77, 163, 255, 0.3);
+}
+
+.play-button-container {
+    cursor: pointer;
+}
+
+.play-circle {
+    width: 50px;
+    height: 50px;
+    background-color: #b0bec5;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-size: 20px;
+}
+
+.hero-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.hero-image img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Achievements Section */
+.achievements-section {
+    background-color: #2980b9;
+    /* Darker blue banner */
+    background: linear-gradient(to right, #3498db, #2980b9);
+    padding: 40px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--white);
+    margin-bottom: 50px;
+}
+
+.achievement-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #333;
+    /* Dark text on blue bg as per design? Check image carefully. */
+    /* Wait, the image shows "Our Achievements" in dark text on the blue banner? No, that's likely a separate header or the image colors are distinct. 
+       Correction: In the image (uploaded_image_0), "Our Achievements" is dark text, but it looks like it's on the blue background. That's unusual contrast. 
+       Let's look closer. Ah, "Our Achievements" is on the left, big black text. The background is blue. This implies the text color is dark. */
+    color: #2c3e50;
+    flex: 1;
+}
+
+.achievement-stats {
+    display: flex;
+    gap: 50px;
+    align-items: center;
+    flex: 2;
+    justify-content: flex-end;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-item h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #333;
+}
+
+.stat-item p {
+    font-size: 14px;
+    color: #333;
+}
+
+/* Specific override for the stats based on image visual: 
+   The image shows the banner is blue but the text is dark? 
+   Actually, looking at the crop 3 (footer/stats), "Our Achievements" is clearly dark text on a blue gradient. 
+   Wait, the text "15+ Laundry Services" is black too. 
+   Okay, I will stick to what I see. */
+
+.achievements-section {
+    background: #3498db;
+}
+
+
+.highlight-stat .circle-stat {
+    width: 60px;
+    height: 60px;
+    background-color: #c0392b;
+    /* Reddish circle */
+    border-radius: 50%;
+}
+
+/* Booking/Services Section */
+.booking-section {
+    display: flex;
+    gap: 40px;
+    padding: 50px 5%;
+    background-color: #f8f9fa;
+    align-items: flex-start;
+}
+
+.services-column {
+    flex: 1.5;
+    background: var(--white);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.services-column h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: var(--text-light);
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.divider {
+    height: 1px;
+    background-color: #eee;
+    margin-bottom: 20px;
+}
+
+.service-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.service-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+    color: #455a64;
+}
+
+.service-info .icon {
+    font-size: 20px;
+    width: 30px;
+    text-align: center;
+}
+
+.service-info .bullet {
+    color: #bdc3c7;
+    font-size: 20px;
+}
+
+.service-info .price {
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.action-btn {
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    font-weight: 500;
+}
+
+.add-btn {
+    background-color: #f1f8e9;
+    /* Light green/grey tint */
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+.remove-btn {
+    background-color: #ffebee;
+    color: #d32f2f;
+    border: 1px solid #ffcdd2;
+}
+
+
+.helper-text {
+    margin-top: 20px;
+    color: var(--primary-color);
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Cart Column */
+.cart-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.cart-card,
+.booking-form-card {
+    background: var(--white);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.cart-card h3,
+.booking-form-card h3 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #455a64;
+}
+
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    font-size: 14px;
+    color: #78909c;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.cart-item-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    padding: 10px 0;
+    color: #333;
+}
+
+.cart-total {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    font-weight: 700;
+    font-size: 16px;
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+}
+
+.total-price {
+    font-size: 20px;
+    color: #e91e63;
+    /* Pinkish color from image */
+}
+
+/* Form */
+.booking-form-card h3 {
+    margin-bottom: 15px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 5px;
+    color: #546e7a;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+}
+
+.book-now-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #536dfe;
+    /* Indigo/Blue button */
+    color: var(--white);
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* Features Section */
+.features-section {
+    display: flex;
+    justify-content: space-between;
+    padding: 60px 5%;
+    background: var(--white);
+    text-align: center;
+}
+
+.feature-box {
+    flex: 1;
+    padding: 20px;
+}
+
+.feature-icon {
+    font-size: 40px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.feature-box h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.feature-box p {
+    font-size: 14px;
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+/* Newsletter */
+.newsletter-section {
+    background-color: #42a5f5;
+    padding: 60px 5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+}
+
+.newsletter-content {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    width: 100%;
+    max-width: 1000px;
+}
+
+.newsletter-content h2 {
+    font-size: 36px;
+    flex: 1;
+}
+
+.newsletter-form {
+    flex: 1.5;
+    display: flex;
+    gap: 10px;
+}
+
+.newsletter-form input {
+    flex: 1;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    /* Transparent look */
+    color: var(--white);
+    font-size: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.newsletter-form input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.newsletter-form button {
+    padding: 15px 30px;
+    background: var(--white);
+    color: #42a5f5;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Footer */
+.footer {
+    background-color: #f8f9fa;
+    padding: 60px 5%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer-col {
+    flex: 1;
+}
+
+.footer-col h4 {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.footer-logo {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #455a64;
+}
+
+.footer-col ul {
+    list-style: none;
+}
+
+.footer-col ul li {
+    margin-bottom: 10px;
+}
+
+.footer-col ul li a {
+    text-decoration: none;
+    color: var(--text-light);
+    font-size: 14px;
+}
+
+.footer-col p {
+    color: var(--text-light);
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.social-icons {
+    display: flex;
+    gap: 15px;
+}
+
+.social-icons a {
+    color: #333;
+    font-size: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .hero-section {
+        flex-direction: column-reverse;
+        text-align: center;
+        padding-top: 30px;
+    }
+
+    .hero-content {
+        padding-right: 0;
+        margin-top: 30px;
+    }
+
+    .hero-content p {
+        margin: 0 auto 30px;
+    }
+
+    .hero-actions {
+        justify-content: center;
+    }
+
+    .achievements-section {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .achievement-stats {
+        justify-content: space-around;
+        gap: 20px;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .booking-section {
+        flex-direction: column;
+    }
+
+    .features-section {
+        flex-direction: column;
+    }
+
+    .newsletter-content {
+        flex-direction: column;
+        gap: 30px;
+        text-align: center;
+    }
+
+    .newsletter-form {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .footer {
+        flex-direction: column;
+        gap: 40px;
+    }
 }
