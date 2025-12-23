@@ -4,284 +4,1068 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laundry Services</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>Laundry Services Web App</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <!-- FontAwesome for Icons (using CDN for simplicity as per common practice, assuming internet access is okay for CDN) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --primary-blue: #3b82f6;
+            /* Bright Blue */
+            --dark-blue: #1e3a8a;
+            /* Navy Blue */
+            --light-bg: #f3f4f6;
+            /* Light Gray Background */
+            --text-dark: #1f2937;
+            /* Dark Text */
+            --text-gray: #6b7280;
+            /* Muted Text */
+            --red-action: #ef4444;
+            /* Remove Button Red */
+            --green-toast: #22c55e;
+            /* Success Green */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* --- UTILITIES --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        /* --- HEADER --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            background: white;
+            position: relative;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-gray);
+            font-weight: 500;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: var(--primary-blue);
+        }
+
+        .user-badge {
+            background-color: #e0f2fe;
+            color: var(--primary-blue);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 60px 0;
+            gap: 40px;
+        }
+
+        .hero-text {
+            flex: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 48px;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .hero-text h1 span {
+            color: var(--primary-blue);
+        }
+
+        .hero-text p {
+            color: var(--text-gray);
+            margin-bottom: 30px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 20px;
+            /* Placeholder styling for the 3D machine */
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
+        }
+
+        /* --- ACHIEVEMENTS BAR --- */
+        .achievements {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 40px 0;
+            margin-bottom: 60px;
+        }
+
+        .achievements .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .achieve-title {
+            font-size: 32px;
+            font-weight: 700;
+            flex: 1;
+        }
+
+        .stats-grid {
+            display: flex;
+            gap: 60px;
+            flex: 2;
+            justify-content: flex-end;
+        }
+
+        .stat-item h3 {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .stat-item p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* --- SERVICES & CART SECTION (MAIN) --- */
+        .services-wrapper {
+            background-color: #fafafa;
+            padding: 60px 0;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 40px;
+        }
+
+        /* Left Column: Services Card Container */
+        .services-card-inner {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            height: fit-content;
+        }
+
+        .services-col h2 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 5px;
+            color: #1f2937;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .services-info-link {
+            margin-top: 25px;
+            font-size: 14px;
+            color: #4f46e5;
+            /* Indigo/Blue to match image link color roughly */
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .services-info-link i {
+            font-size: 16px;
+        }
+
+        .service-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            /* Remove gap, use padding/border */
+        }
+
+        .service-item {
+            /* Row Styling */
+            background: transparent;
+            padding: 20px 0;
+            border-radius: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: none;
+            border: none;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .service-item:last-child {
+            border-bottom: none;
+        }
+
+        .service-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .service-icon {
+            /* Smaller inline icon if needed, or keep existing */
+            width: auto;
+            height: auto;
+            font-size: 18px;
+            color: #1f2937;
+            margin-right: 5px;
+        }
+
+        .service-details h4 {
+            font-size: 15px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 2px;
+        }
+
+        .service-details span {
+            font-size: 14px;
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+
+        /* Buttons matching Image 2 */
+        .btn-add {
+            border: none;
+            background: #f3f4f6;
+            padding: 10px 20px;
+            border-radius: 50px;
+            /* Pill shape */
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-add:hover {
+            background-color: #e5e7eb;
+        }
+
+        .btn-remove {
+            background-color: #fef2f2;
+            color: #ef4444;
+            border: 1px solid #fee2e2;
+        }
+
+        .btn-remove:hover {
+            background-color: #fee2e2;
+        }
+
+        /* Right Column: Cart */
+        .cart-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            height: fit-content;
+        }
+
+        .cart-card h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-gray);
+            display: block;
+            /* Toggled via JS */
+        }
+
+        .empty-state i {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: #d1d5db;
+        }
+
+        .empty-state h4 {
+            color: var(--text-dark);
+            margin-bottom: 5px;
+        }
+
+        .empty-state p {
+            font-size: 12px;
+        }
+
+        /* Cart Table */
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            display: none;
+            /* Toggled via JS */
+        }
+
+        .cart-table th {
+            text-align: left;
+            font-size: 12px;
+            color: var(--text-gray);
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-table td {
+            padding: 12px 0;
+            font-size: 14px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            font-weight: 700;
+            font-size: 18px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+
+        /* Form */
+        .booking-form label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--text-dark);
+        }
+
+        .booking-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            background: #f9fafb;
+        }
+
+        .booking-form input:focus {
+            outline: 2px solid var(--primary-blue);
+            background: white;
+        }
+
+        .btn-book {
+            width: 100%;
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        /* --- FEATURES SECTION --- */
+        .features-section {
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .features-grid {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .feature-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 200px;
+        }
+
+        .feature-icon-circle {
+            width: auto;
+            height: auto;
+            background-color: transparent;
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+
+        .feature-item h5 {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .feature-item p {
+            font-size: 12px;
+            color: var(--text-gray);
+        }
+
+        /* --- NEWSLETTER --- */
+        .newsletter {
+            background-color: #3b82f6;
+            /* Blue background from image */
+            padding: 80px 0;
+            color: white;
+            text-align: center;
+        }
+
+        .newsletter-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #3b82f6;
+            /* Ensure container is also blue if needed */
+        }
+
+        .newsletter-text {
+            text-align: left;
+        }
+
+        .newsletter-text h3 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: white;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 15px;
+        }
+
+        .newsletter-form input {
+            padding: 15px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            width: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 14px;
+        }
+
+        .newsletter-form input::placeholder {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .newsletter-form input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .newsletter-form button {
+            background-color: white;
+            color: #3b82f6;
+            font-weight: 600;
+            padding: 15px 40px;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .newsletter-form button:hover {
+            background-color: #f0f9ff;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 80px 0 40px;
+            background-color: #f3f4f6;
+            color: var(--text-dark);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 40px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0px;
+            margin-bottom: 10px;
+        }
+
+        .footer-col h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #000;
+        }
+
+        .footer-col h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #000;
+        }
+
+        .footer-col p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 14px;
+            margin-bottom: 10px;
+            max-width: 300px;
+            /* Limit width of About text */
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: #666;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-blue);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            color: #000;
+            font-size: 20px;
+            transition: 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-blue);
+        }
+
+        .footer-bottom {
+            display: none;
+            /* Hiding the bottom bar as it wasn't in the design */
+        }
+
+        /* --- TOAST NOTIFICATION --- */
+        #toast-container {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            background-color: var(--green-toast);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive tweaks */
+        @media (max-width: 768px) {
+
+            .hero,
+            .main-grid,
+            .achievements .container,
+            .newsletter-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .newsletter-content {
+                gap: 30px;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .newsletter-form input,
+            .newsletter-form button {
+                width: 100%;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                /* Stack footer columns */
+                text-align: center;
+                place-items: center;
+            }
+
+            .footer-col p {
+                margin: 0 auto 10px;
+                /* Center text */
+            }
+
+            .stats-grid {
+                justify-content: center;
+                margin-top: 20px;
+            }
+
+            .hero-image {
+                order: -1;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="logo">Logo</div>
-        <ul class="nav-links">
-            <li><a href="#" class="active">Home</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Contact Us</a></li>
-        </ul>
-        <button class="username-btn">Username</button>
-    </nav>
+    <header>
+        <div class="container" style="display: flex; justify-content: space-between; width: 100%;">
+            <div class="logo">Logo</div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active">Home</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </nav>
+            <div class="user-badge">Username</div>
+        </div>
+    </header>
 
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="hero-content">
-            <h1>Revitalize Your Clothes with Expert <span class="highlight">Laundry Services!</span></h1>
-            <p>From premium dry cleaning to swift wash and fold, we deliver care and convenience. Schedule a pickup and
+    <div class="container hero">
+        <div class="hero-text">
+            <h1>Revitalize Your Clothes with Expert <span>Laundry Services!</span></h1>
+            <p>From premium dry cleaning to soft wash and fold, we deliver care and convenience. Schedule a pickup and
                 rediscover the freshness of your clothes today!</p>
-            <div class="hero-actions">
-                <button class="cta-btn"><i class="fas fa-store"></i> Book a service today!</button>
-                <div class="play-button-container">
-                    <!-- Simulating the play button from design -->
-                    <div class="play-circle"><i class="fas fa-play"></i></div>
-                </div>
-            </div>
+            <a href="#services" class="btn-primary">
+                <i class="fa-solid fa-calendar-check"></i> Book a service today!
+            </a>
         </div>
         <div class="hero-image">
-            <img src="images/hero-image.png" alt="3D Laundry Machine">
+            <img src="images/hero-image.png" alt="Laundry Services" style="width: 100%; border-radius: 20px;">
         </div>
-    </section>
+    </div>
 
-    <!-- Achievements Section -->
-    <section class="achievements-section">
-        <div class="achievement-title">Our Achievements</div>
-        <div class="achievement-stats">
-            <div class="stat-item">
-                <h2>15+</h2>
-                <p>Laundry Services</p>
-            </div>
-            <div class="stat-item highlight-stat"> <!-- The red circle one -->
-                <div class="circle-stat"></div>
-            </div>
-            <div class="stat-item">
-                <h2>240+</h2>
-                <p>Happy Customers</p>
-            </div>
-            <div class="stat-item">
-                <h2>2+ Yrs</h2>
-                <p>Experience</p>
+    <div class="achievements">
+        <div class="container">
+            <div class="achieve-title">Our Achievements</div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>15+</h3>
+                    <p>Laundry Services</p>
+                </div>
+                <div class="stat-item">
+                    <h3>240+</h3>
+                    <p>Happy Customers</p>
+                </div>
+                <div class="stat-item">
+                    <h3>2+ Yrs</h3>
+                    <p>Experience</p>
+                </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Services Selection Section -->
-    <section class="booking-section">
-        <div class="services-column">
-            <h2>Our Services</h2>
-            <p class="subtitle">Click On The Add To Cart Button To Add The Services To Your Cart</p>
-            <div class="divider"></div>
+    <div class="services-wrapper" id="services">
+        <div class="container main-grid">
 
-            <div class="service-list">
-                <!-- Service Item 1 -->
-                <div class="service-item">
-                    <div class="service-info">
-                        <span class="icon">👕</span> <!-- Using emoji/icon placeholder if generic icon not avail -->
-                        <span class="name">Dry Cleaning</span>
-                        <span class="bullet">•</span>
-                        <span class="price">₹200.00</span>
+            <div class="services-col">
+                <div class="services-card-inner">
+                    <h2>Our Services</h2>
+                    <p class="subtitle">Click On The Add To Cart Button To Add The Services To Your Cart</p>
+
+                    <div class="service-list" id="service-list-container">
                     </div>
-                    <button class="action-btn remove-btn" data-id="1" data-name="Dry Cleaning" data-price="200"
-                        style="display:none;">Remove Item <i class="fas fa-minus-circle"></i></button>
-                    <button class="action-btn add-btn" data-id="1" data-name="Dry Cleaning" data-price="200">Add Item <i
-                            class="fas fa-plus-circle"></i></button>
-                </div>
 
-                <!-- Service Item 2 -->
-                <div class="service-item">
-                    <div class="service-info">
-                        <span class="icon">🧺</span>
-                        <span class="name">Wash & Fold</span>
-                        <span class="bullet">•</span>
-                        <span class="price">₹100.00</span>
+                    <div class="services-info-link">
+                        <i class="fa-solid fa-circle-info"></i> Add the items to the cart and book now
                     </div>
-                    <button class="action-btn add-btn" data-id="2" data-name="Wash & Fold" data-price="100">Add Item <i
-                            class="fas fa-plus-circle"></i></button>
-                    <button class="action-btn remove-btn" data-id="2" data-name="Wash & Fold" data-price="100"
-                        style="display:none;">Remove Item <i class="fas fa-minus-circle"></i></button>
-                </div>
-
-                <!-- Service Item 3 -->
-                <div class="service-item">
-                    <div class="service-info">
-                        <span class="icon">👖</span>
-                        <span class="name">Ironing</span>
-                        <span class="bullet">•</span>
-                        <span class="price">₹30.00</span>
-                    </div>
-                    <button class="action-btn remove-btn" data-id="3" data-name="Ironing" data-price="30">Remove Item <i
-                            class="fas fa-minus-circle"></i></button>
-                    <button class="action-btn add-btn" data-id="3" data-name="Ironing" data-price="30"
-                        style="display:none;">Add Item <i class="fas fa-plus-circle"></i></button>
-                </div>
-
-                <!-- Service Item 4 -->
-                <div class="service-item">
-                    <div class="service-info">
-                        <span class="icon">✨</span>
-                        <span class="name">Stain Removal</span>
-                        <span class="bullet">•</span>
-                        <span class="price">₹500.00</span>
-                    </div>
-                    <button class="action-btn add-btn" data-id="4" data-name="Stain Removal" data-price="500">Add Item
-                        <i class="fas fa-plus-circle"></i></button>
-                    <button class="action-btn remove-btn" data-id="4" data-name="Stain Removal" data-price="500"
-                        style="display:none;">Remove Item <i class="fas fa-minus-circle"></i></button>
-                </div>
-
-                <!-- Service Item 5 -->
-                <div class="service-item">
-                    <div class="service-info">
-                        <span class="icon">🧥</span>
-                        <span class="name">Leather & Suede Cleaning</span>
-                        <span class="bullet">•</span>
-                        <span class="price">₹999.00</span>
-                    </div>
-                    <button class="action-btn remove-btn" data-id="5" data-name="Leather & Suede Cleaning"
-                        data-price="999">Remove Item <i class="fas fa-minus-circle"></i></button>
-                    <button class="action-btn add-btn" data-id="5" data-name="Leather & Suede Cleaning" data-price="999"
-                        style="display:none;">Add Item <i class="fas fa-plus-circle"></i></button>
-                </div>
-
-                <!-- Service Item 6 -->
-                <div class="service-item">
-                    <div class="service-info">
-                        <span class="icon">👗</span>
-                        <span class="name">Wedding Dress Cleaning</span>
-                        <span class="bullet">•</span>
-                        <span class="price">₹2800.00</span>
-                    </div>
-                    <button class="action-btn add-btn" data-id="6" data-name="Wedding Dress Cleaning"
-                        data-price="2800">Add Item <i class="fas fa-plus-circle"></i></button>
-                    <button class="action-btn remove-btn" data-id="6" data-name="Wedding Dress Cleaning"
-                        data-price="2800" style="display:none;">Remove Item <i class="fas fa-minus-circle"></i></button>
-                </div>
-
-                <div class="helper-text"><i class="fas fa-info-circle"></i> Add the items to the cart and book now</div>
-            </div>
-        </div>
-
-        <div class="cart-column">
-            <div class="cart-card">
-                <h3>Added Items</h3>
-                <div class="cart-header">
-                    <span>S.No</span>
-                    <span>Service Name</span>
-                    <span>Price</span>
-                </div>
-                <!-- Cart Items Container -->
-                <div class="cart-items" id="cart-items-container">
-                    <!-- Items inserted by JS -->
-                </div>
-
-                <div class="cart-total">
-                    <span>Total Amount</span>
-                    <span class="total-price" id="total-price">₹0.00</span>
                 </div>
             </div>
 
-            <div class="booking-form-card">
-                <h3>Book Now</h3>
-                <form id="booking-form">
-                    <div class="form-group">
+            <div class="cart-col">
+                <div class="cart-card">
+                    <h3>Added Items</h3>
+
+                    <div id="empty-cart-state" class="empty-state">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        <h4>No Items Added</h4>
+                        <p>Add items to the cart from the services bar</p>
+                    </div>
+
+                    <table class="cart-table" id="cart-table">
+                        <thead>
+                            <tr>
+                                <th>S.No.</th>
+                                <th>Service Name</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cart-body">
+                        </tbody>
+                    </table>
+
+                    <div class="cart-total">
+                        <span>Total Amount</span>
+                        <span id="total-price">₹ 0</span>
+                    </div>
+
+                    <h3>Book Now</h3>
+                    <form class="booking-form" onsubmit="handleBooking(event)">
                         <label>Full Name</label>
                         <input type="text" placeholder="John Doe" required>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Email ID</label>
-                            <input type="email" placeholder="mailid@gmail.com" required>
+
+                        <div style="display: flex; gap: 10px;">
+                            <div style="flex:1;">
+                                <label>Email ID</label>
+                                <input type="email" placeholder="mail@gmail.com" required>
+                            </div>
+                            <div style="flex:1;">
+                                <label>Phone Number</label>
+                                <input type="tel" placeholder="0000000000" required>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>Phone Number</label>
-                            <input type="tel" placeholder="000000000" required>
-                        </div>
-                    </div>
-                    <button type="submit" class="book-now-btn">Book now</button>
-                </form>
+
+                        <button type="submit" class="btn-book">Book now</button>
+                    </form>
+                    <div id="toast-container"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="features-section container">
+        <div class="features-grid">
+            <div class="feature-item">
+                <div class="feature-icon-circle"><i class="fa-solid fa-shirt"></i></div>
+                <h5>Premium Services</h5>
+                <p>We ensure meticulous dry cleaning ensuring garments look and feel as good as new.</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon-circle"><i class="fa-solid fa-headset"></i></div>
+                <h5>Quick Support</h5>
+                <p>We provide instant and prompt solutions to ensure your experience is smooth and worry-free.</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon-circle"><i class="fa-solid fa-box-open"></i></div>
+                <h5>Hassle Free Delivery</h5>
+                <p>Enjoy seamless service with our convenient pickup and delivery options, tailored to your schedule.
+                </p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon-circle"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+                <h5>Affordable Prices</h5>
+                <p>Experience top-quality care without breaking the bank - our affordable prices make laundry day stress
+                    free.</p>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Features Section -->
-    <section class="features-section">
-        <div class="feature-box">
-            <div class="feature-icon"><i class="fas fa-washing-machine"></i> <img src="images/icon-premium.png" alt=""
-                    style="width:50px;"></div> <!-- Using generated icon or FA fallback -->
-            <h3>Premium Services</h3>
-            <p>Elevate your wardrobe with our meticulous dry cleaning, ensuring garments look and feel as good as new.
-            </p>
-        </div>
-        <div class="feature-box">
-            <div class="feature-icon"><i class="fas fa-headset"></i></div>
-            <h3>Quick Support</h3>
-            <p>We're committed to providing prompt solutions to ensure your experience is smooth and worry-free.</p>
-        </div>
-        <div class="feature-box">
-            <div class="feature-icon"><i class="fas fa-truck-fast"></i></div>
-            <h3>Hassle Free Delivery</h3>
-            <p>Enjoy seamless service with our convenient pickup and delivery options, tailored to your schedule.</p>
-        </div>
-        <div class="feature-box">
-            <div class="feature-icon"><i class="fas fa-tags"></i></div>
-            <h3>Affordable Prices</h3>
-            <p>Experience exceptional care without breaking the bank — our affordable prices make laundry day
-                stress-free.</p>
-        </div>
-    </section>
-
-    <!-- Newsletter Section -->
-    <section class="newsletter-section">
-        <div class="newsletter-content">
-            <h2>Subscribe to our newsletter.</h2>
+    <div class="newsletter">
+        <div class="container newsletter-content">
+            <div class="newsletter-text">
+                <h3>Subscribe to our<br>newsletter.</h3>
+            </div>
             <form class="newsletter-form">
                 <input type="text" placeholder="Full name">
                 <input type="email" placeholder="Email">
-                <button type="submit">Subscribe</button>
+                <button type="button">Subscribe</button>
             </form>
         </div>
-    </section>
+    </div>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-col">
-            <div class="footer-logo">Logo</div>
-            <div class="about-us-text">
+    <!-- Footer moved outside container for full-width background -->
+    <footer>
+        <div class="container footer-content">
+            <!-- Column 1: Logo & About -->
+            <div class="footer-col">
+                <h3>Logo</h3>
                 <h4>About us</h4>
                 <p>Lorem Ipsum Dolor Sit Amet Consectetur. Sed At Congue.</p>
             </div>
-        </div>
-        <div class="footer-col">
-            <h4>Important Links</h4>
-            <ul>
-                <li><a href="#">About us</a></li>
-                <li><a href="#">Contact us</a></li>
-                <li><a href="#">Privacy Policy</a></li>
-                <li><a href="#">Terms of use</a></li>
-                <li><a href="#">Refund Policy</a></li>
-            </ul>
-        </div>
-        <div class="footer-col">
-            <h4>Contact</h4>
-            <p class="email-link">mail@site.com</p>
-            <p class="phone-link">+91 91234 56780</p>
-        </div>
-        <div class="footer-col">
-            <h4>Follow Us</h4>
-            <div class="social-icons">
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-youtube"></i></a>
+
+            <!-- Column 2: Important Links -->
+            <div class="footer-col">
+                <h4>Important Links</h4>
+                <ul class="footer-links">
+                    <li><a href="#">About us</a></li>
+                    <li><a href="#">Contact us</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of use</a></li>
+                    <li><a href="#">Refund Policy</a></li>
+                </ul>
             </div>
+
+            <!-- Column 3: Contact -->
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <div class="footer-links">
+                    <a href="mailto:mail@site.com">mail@site.com</a>
+                    <a href="tel:+919123456780">+91 91234 56780</a>
+                </div>
+            </div>
+
+            <!-- Column 4: Follow Us -->
+            <div class="footer-col">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+
+
+    <script>
+        // --- DATA ---
+        const servicesData = [
+            { id: 1, name: 'Dry Cleaning', price: 200.00, icon: 'fa-shirt', color: '#ef4444' }, // Red/Pink
+            { id: 2, name: 'Wash & Fold', price: 100.00, icon: 'fa-jug-detergent', color: '#9333ea' }, // Purple
+            { id: 3, name: 'Ironing', price: 30.00, icon: 'fa-temperature-arrow-up', color: '#eab308' }, // Yellow
+            { id: 4, name: 'Stain Removal', price: 500.00, icon: 'fa-wand-magic-sparkles', color: '#ec4899' }, // Pink
+            { id: 5, name: 'Leather & Suede Cleaning', price: 999.00, icon: 'fa-vest', color: '#a16207' }, // Brown
+            { id: 6, name: 'Wedding Dress Cleaning', price: 2800.00, icon: 'fa-person-dress', color: '#4b5563' } // Grey
+        ];
+
+        let cart = [];
+
+        // --- ELEMENTS ---
+        const serviceListContainer = document.getElementById('service-list-container');
+        const cartTable = document.getElementById('cart-table');
+        const cartBody = document.getElementById('cart-body');
+        const emptyState = document.getElementById('empty-cart-state');
+        const totalPriceEl = document.getElementById('total-price');
+
+        // --- INITIALIZATION ---
+        function init() {
+            renderServices();
+            renderCart();
+        }
+
+        // --- RENDER SERVICES ---
+        function renderServices() {
+            serviceListContainer.innerHTML = '';
+
+            servicesData.forEach(service => {
+                const isInCart = cart.some(item => item.id === service.id);
+
+                const btnClass = isInCart ? 'btn-add btn-remove' : 'btn-add';
+                const btnText = isInCart ? 'Remove Item' : 'Add Item';
+                const btnIcon = isInCart ? '<i class="fa-solid fa-trash"></i>' : '<i class="fa-solid fa-circle-plus"></i>';
+
+                const div = document.createElement('div');
+                div.className = 'service-item';
+                div.innerHTML = `
+                    <div class="service-info">
+                        <div class="service-icon">
+                            <i class="fa-solid ${service.icon}" style="color: ${service.color};"></i>
+                        </div>
+                        <div class="service-details">
+                            <h4>${service.name} <span style="color: #d1d5db; margin: 0 5px;">•</span> <span style="color: #2563eb;">₹${service.price.toFixed(2)}</span></h4>
+                        </div>
+                    </div>
+                    <button class="${btnClass}" onclick="toggleCart(${service.id})">
+                        ${btnText} ${btnIcon}
+                    </button>
+                `;
+                serviceListContainer.appendChild(div);
+            });
+        }
+
+        // --- TOGGLE CART ITEM ---
+        function toggleCart(id) {
+            const service = servicesData.find(s => s.id === id);
+            const index = cart.findIndex(item => item.id === id);
+
+            if (index === -1) {
+                // Add to cart
+                cart.push(service);
+            } else {
+                // Remove from cart
+                cart.splice(index, 1);
+            }
+
+            renderServices();
+            renderCart();
+        }
+
+        // --- RENDER CART ---
+        function renderCart() {
+            // Toggle Empty State Logic
+            if (cart.length === 0) {
+                emptyState.style.display = 'block';
+                cartTable.style.display = 'none';
+                totalPriceEl.innerText = '₹ 0';
+                return;
+            }
+
+            // If items exist
+            emptyState.style.display = 'none';
+            cartTable.style.display = 'table';
+            cartBody.innerHTML = '';
+
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                total += item.price;
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${item.name}</td>
+                    <td>₹${item.price.toFixed(2)}</td>
+                `;
+                cartBody.appendChild(row);
+            });
+
+            totalPriceEl.innerText = `₹ ${total.toFixed(2)}`;
+        }
+
+        // --- HANDLE BOOKING SUBMISSION ---
+        function handleBooking(e) {
+            e.preventDefault(); // Stop actual form submission
+
+            if (cart.length === 0) {
+                showToast("Please add items to the cart first!", "red");
+                return;
+            }
+
+            // Simulate sending email
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerText;
+            btn.innerText = "Processing...";
+
+            setTimeout(() => {
+                btn.innerText = originalText;
+                showToast("Email has been sent successfully", "green");
+
+                // Optional: Reset form and cart
+                // e.target.reset();
+                // cart = [];
+                // renderServices();
+                // renderCart();
+            }, 1000);
+        }
+
+        // --- TOAST NOTIFICATION ---
+        function showToast(message, type) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            if (type === 'red') toast.style.backgroundColor = '#ef4444';
+
+            toast.innerHTML = `<i class="fa-solid fa-check-circle"></i> ${message}`;
+
+            container.appendChild(toast);
+
+            // Remove after 3 seconds
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Run Init
+        init();
+    </script>
 </body>
 
 </html>
