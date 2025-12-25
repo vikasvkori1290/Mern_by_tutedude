@@ -706,6 +706,12 @@
             }
         }
     </style>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function () {
+            emailjs.init("kdRWSnPKi2B-hKc4_");
+        })();
+    </script>
 </head>
 
 <body>
@@ -1028,21 +1034,41 @@
                 return;
             }
 
-            // Simulate sending email
+            // EmailJS Integration
             const btn = e.target.querySelector('button');
             const originalText = btn.innerText;
             btn.innerText = "Processing...";
 
-            setTimeout(() => {
-                btn.innerText = originalText;
-                showToast("Email has been sent successfully", "green");
+            // Gather Data
+            const form = e.target;
+            const name = form.querySelector('input[type="text"]').value;
+            const email = form.querySelector('input[type="email"]').value;
+            const phone = form.querySelector('input[type="tel"]').value;
+            const totalPrice = document.getElementById('total-price').innerText;
 
-                // Optional: Reset form and cart
-                // e.target.reset();
-                // cart = [];
-                // renderServices();
-                // renderCart();
-            }, 1000);
+            const templateParams = {
+                to_name: name,
+                to_email: email,
+                phone: phone,
+                message: `You have booked ${cart.length} services. Total Amount: ${totalPrice}`,
+            };
+
+            emailjs.send('service_t0fsti9', 'template_djoiyp6', templateParams)
+                .then(function (response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                    btn.innerText = originalText;
+                    showToast("Thank you For Booking the Service We will get back to you soon!", "green");
+
+                    // Reset form and cart
+                    form.reset();
+                    cart = [];
+                    renderServices();
+                    renderCart();
+                }, function (error) {
+                    console.log('FAILED...', error);
+                    btn.innerText = originalText;
+                    showToast("Failed to send email. Please try again.", "red");
+                });
         }
 
         // --- TOAST NOTIFICATION ---
